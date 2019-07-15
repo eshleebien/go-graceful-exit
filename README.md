@@ -7,7 +7,7 @@ This is essential for a true zero downtime especially when your applications run
 This requires go 1.8+ version and [mux](https://github.com/gorilla/mux).
 
 ```bash
-$ go get go get github.com/gorilla/mux
+$ go get github.com/gorilla/mux
 ```
 
 ```bash
