@@ -18,9 +18,8 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func gracefulStop(ctx context.Context, ch chan<- struct{}, srv *http.Server) {
-	gracefulStop := make(chan os.Signal, 1)
-	signal.Notify(gracefulStop, syscall.SIGINT)
-	signal.Notify(gracefulStop, syscall.SIGTERM)
+	gracefulStop := make(chan os.Signal, 2)
+	signal.Notify(gracefulStop, syscall.SIGINT, syscall.SIGTERM)
 	sig := <-gracefulStop
 
 	log.Printf("Caught sig: %+v", sig)
