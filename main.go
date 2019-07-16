@@ -18,7 +18,7 @@ func GetHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func gracefulStop(ctx context.Context, ch chan<- struct{}, srv *http.Server) {
-	gracefulStop := make(chan os.Signal, 2)
+	gracefulStop := make(chan os.Signal, 1)
 	signal.Notify(gracefulStop, syscall.SIGINT, syscall.SIGTERM)
 	sig := <-gracefulStop
 
@@ -57,6 +57,7 @@ func main() {
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
 		// Error starting or closing listener:
 		log.Printf("HTTP server ListenAndServe: %v", err)
+		close(idleConnsClosed)
 	}
 
 	<-idleConnsClosed
